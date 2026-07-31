@@ -1,0 +1,273 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --sidebar-width: 236px;
+  --sidebar-bg: #182230;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-accent-line: rgba(255, 255, 255, 0.12);
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: #dbeafe;
+  --blue: #2563eb;
+  --blue-soft: #dbeafe;
+  --teal: #0f766e;
+  --teal-soft: #ccfbf1;
+  --green: #16a34a;
+  --green-soft: #dcfce7;
+  --amber: #d97706;
+  --amber-soft: #fef3c7;
+  --rose: #e11d48;
+  --rose-soft: #ffe4e6;
+  --violet: #7c3aed;
+  --violet-soft: #ede9fe;
+  --cyan: #0891b2;
+  --cyan-soft: #cffafe;
+  --text-primary: #ffffff;
+  --text-muted: #98a2b3;
+  --nav-hover-bg: rgba(255, 255, 255, 0.07);
+  --active-bg: #2563eb;
+  --active-text: #ffffff;
+
+  --page-bg: #eef4ff;
+  --page-text: #101828;
+  --page-text-muted: #667085;
+  --text-strong: #111827;
+  --text-soft: #4b5563;
+  --error: #dc2626;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --input-bg: #ffffff;
+  --input-border: #2a2a2a;
+  --input-text: #111827;
+  --input-placeholder: #9ca3af;
+
+  --free-status: #dcfce7;
+  --free-status-text: #166534;
+  --reserved-status: #fdf3e0;
+  --reserved-status-text: #92400e;
+  --occupied-status: #fbe2e2;
+  --occupied-status-text: #991b1b;
+
+  --role-manager: #ebf3fe;
+  --role-manager-text: #1d4ed8;
+  --role-chef: #fdf5eb;
+  --role-chef-text: #b45309;
+  --role-waiter: #ebf9f0;
+  --role-waiter-text: #15803d;
+
+  --profile-pic-placeholder-bg: #fdf2ec;
+
+  --row-hover: #f1f5f9;
+
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #eff6ff;
+  --border: #e5e7eb;
+  --border-strong: #cbd5e1;
+  --divider: rgba(17, 24, 39, 0.08);
+  --icon-muted: #64748b;
+  --danger: #ef4444;
+  --danger-bg: #fee2e2;
+  --danger-border: #fecaca;
+  --success: #10b981;
+  --success-bg: #dcfce7;
+  --warning: #d97706;
+  --warning-bg: #fef3c7;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 16px 40px rgba(16, 24, 40, 0.12);
+
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 0.15s;
+  --duration-normal: 0.22s;
+  --radius-sm: 8px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.24);
+
+  --status-pending: var(--accent);
+  --status-pending-bg: var(--blue-soft);
+  --status-preparing: #d97706;
+  --status-preparing-bg: var(--amber-soft);
+  --status-ready: #10b981;
+  --status-ready-bg: var(--green-soft);
+  --status-served: #64748b;
+  --status-served-bg: rgba(100, 116, 139, 0.14);
+
+  --signout-button-bg: #e11d48;
+  --signout-button-border: #fecaca;
+  --signout-button-text: #ffffff;
+  --signout-button-text-hover: #e11d48;
+  --signout-button-bg-hover: #fff1f2;
+  --signout-button-border-hover: #e11d48;
+}
+
+:root[data-theme="dark"] {
+  --text-primary: #ffffff;
+  --text-muted: #737b8c;
+  --nav-hover-bg: #2a2a2a;
+
+  --page-bg: #0f1115;
+  --page-text: #f8fafc;
+  --page-text-muted: #9ca3af;
+  --text-strong: #f8fafc;
+  --text-soft: #cbd5e1;
+
+  --error: #f87171;
+
+  --accent: #2dd4bf;
+  --accent-hover: #5eead4;
+
+  --card-bg: #14181e;
+  --card-border: #272b34;
+  --input-bg: #0f1115;
+  --input-border: #272b34;
+  --input-text: #f8fafc;
+  --input-placeholder: #6b7280;
+
+  --free-status: #172d25;
+  --free-status-text: #86efac;
+  --reserved-status: #31281e;
+  --reserved-status-text: #facc15;
+  --occupied-status: #2f1d23;
+  --occupied-status-text: #fca5a5;
+
+  --role-manager: #172539;
+  --role-manager-text: #93c5fd;
+  --role-chef: #31281e;
+  --role-chef-text: #fdba74;
+  --role-waiter: #172d25;
+  --role-waiter-text: #86efac;
+
+  --profile-pic-placeholder-bg: #31221e;
+
+  --row-hover: #1f2937;
+  --surface: #14181e;
+  --surface-2: #191f28;
+  --surface-3: #122c2a;
+  --border: #272b34;
+  --border-strong: #3b4250;
+  --divider: rgba(255, 255, 255, 0.08);
+  --icon-muted: #94a3b8;
+  --danger: #fb7185;
+  --danger-bg: #3a1f25;
+  --danger-border: #7f1d1d;
+  --success: #34d399;
+  --success-bg: #123428;
+  --warning: #facc15;
+  --warning-bg: #342a12;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 14px 32px rgba(0, 0, 0, 0.38);
+
+  --signout-button-bg: #fb7185;
+  --signout-button-border: #7f1d1d;
+  --signout-button-text: #1f1f1f;
+
+  --signout-button-bg-hover: #2a1a1a;
+  --signout-button-border-hover: #fb7185;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background-color: var(--page-bg);
+  color: var(--page-text);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+button,
+a,
+select {
+  touch-action: manipulation;
+}
+
+button,
+[role="button"] {
+  min-height: 38px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+::placeholder {
+  color: var(--input-placeholder);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.55);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+  color: var(--page-text);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
