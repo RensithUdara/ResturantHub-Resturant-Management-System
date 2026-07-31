@@ -1,0 +1,53 @@
+.page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff1f2;
+}
+
+.card {
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid #fecdd3;
+  border-top: 5px solid var(--rose);
+  padding: 40px 50px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  max-width: 400px;
+  width: 100%;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--danger);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: var(--page-text);
+  margin-bottom: 10px;
+}
+
+.text {
+  font-size: 14px;
+  color: var(--page-text-muted);
+  margin-bottom: 25px;
+}
+
+.button {
+  background: var(--rose);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.button:hover {
+  background: #be123c;
+}
