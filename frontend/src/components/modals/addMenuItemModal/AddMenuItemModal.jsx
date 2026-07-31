@@ -1,0 +1,257 @@
+import { useState } from "react";
+import { X, Plus, Trash2 } from "lucide-react";
+import { useInventory } from "../../../hooks/useInventory";
+import styles from "./AddMenuItemModal.module.css";
+
+const CATEGORIES = [
+  "Main Course",
+  "Appetizer",
+  "Dessert",
+  "Drink",
+  "Salad",
+  "Soup",
+];
+
+const EMPTY = {
+  name: "",
+  price: "",
+  category: "Main Course",
+  image: "",
+  recipe: [],
+  isAvailable: true,
+};
+
+const EMPTY_INGREDIENT = {
+  ingredientId: "",
+  quantity: "",
+};
+
+const getValidIngredients = (recipe) =>
+  recipe
+    .filter((ing) => ing.ingredientId && ing.quantity)
+    .map((ing) => ({
+      ingredientId: ing.ingredientId,
+      quantity: Number(ing.quantity),
+    }))
+    .filter((ing) => Number.isFinite(ing.quantity) && ing.quantity > 0);
+
+export default function AddMenuItemModal({ onAdd, onClose }) {
+  const { inventory } = useInventory();
+  const [form, setForm] = useState(EMPTY);
+  const [formError, setFormError] = useState("");
+
+  const set = (key, val) => setForm((p) => ({ ...p, [key]: val }));
+
+  const addIngredient = () => {
+    setForm((p) => ({
+      ...p,
+      recipe: [...p.recipe, { ...EMPTY_INGREDIENT }],
+    }));
+  };
+
+  const removeIngredient = (idx) => {
+    setForm((p) => ({
+      ...p,
+      recipe: p.recipe.filter((_, i) => i !== idx),
+    }));
+  };
+
+  const setIngredient = (idx, key, val) => {
+    setFormError("");
+    setForm((p) => ({
+      ...p,
+      recipe: p.recipe.map((ing, i) =>
+        i === idx ? { ...ing, [key]: val } : ing,
+      ),
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const ingredients = getValidIngredients(form.recipe);
+
+    if (ingredients.length === 0) {
+      setFormError(
+        "Add at least one ingredient with a quantity before saving this menu item.",
+      );
+      return;
+    }
+
+    onAdd({
+      name: form.name.trim(),
+      price: Number(form.price),
+      category: form.category,
+      image: form.image.trim(),
+      ingredients,
+      isAvailable: form.isAvailable,
+    });
+  };
+
+  return (
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>Add Menu Item</h2>
+          <button className={styles.closeBtn} onClick={onClose}>
+            <X size={16} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label}>Name</label>
+            <input
+              className={styles.input}
+              required
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
+              placeholder="e.g. Margherita Pizza"
+            />
+          </div>
+
+          <div className={styles.row}>
+            <div className={styles.field}>
+              <label className={styles.label}>Price (Rs.)</label>
+              <input
+                className={styles.input}
+                type="number"
+                min={0}
+                step="0.01"
+                required
+                value={form.price}
+                onChange={(e) => set("price", e.target.value)}
+                placeholder="0.00"
+              />
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Category</label>
+              <select
+                className={styles.input}
+                value={form.category}
+                onChange={(e) => set("category", e.target.value)}
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label}>Image URL</label>
+            <input
+              className={styles.input}
+              value={form.image}
+              onChange={(e) => set("image", e.target.value)}
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+
+          <div className={styles.recipeSection}>
+            <div className={styles.recipeHeader}>
+              <div>
+                <label className={styles.label}>Recipe (Ingredients)</label>
+                <p className={styles.recipeHint}>
+                  Select stock items from Inventory, then enter the quantity used.
+                </p>
+              </div>
+              <button
+                type="button"
+                className={styles.addIngredientBtn}
+                onClick={addIngredient}
+              >
+                <Plus size={14} />
+                Add Ingredient
+              </button>
+            </div>
+
+            {form.recipe.length === 0 && (
+              <p className={styles.emptyRecipe}>No ingredients added yet.</p>
+            )}
+
+            {form.recipe.map((ing, idx) => (
+              <div key={idx} className={styles.recipeRow}>
+                <select
+                  className={styles.input}
+                  value={ing.ingredientId}
+                  onChange={(e) =>
+                    setIngredient(idx, "ingredientId", e.target.value)
+                  }
+                >
+                  <option value="">Select ingredient</option>
+                  {inventory.length === 0 && (
+                    <option value="" disabled>
+                      Add ingredients in Inventory first
+                    </option>
+                  )}
+                  {inventory.map((inv) => (
+                    <option key={inv._id} value={inv._id}>
+                      {inv.ingredientName}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className={styles.input}
+                  type="number"
+                  min={0}
+                  step="0.01"
+                  placeholder="Qty"
+                  required
+                  value={ing.quantity}
+                  onChange={(e) =>
+                    setIngredient(idx, "quantity", e.target.value)
+                  }
+                />
+                <button
+                  type="button"
+                  className={`${styles.iconBtn} ${styles.deleteBtn}`}
+                  onClick={() => removeIngredient(idx)}
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            ))}
+
+            {formError && <p className={styles.errorText}>{formError}</p>}
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Available</label>
+            <div className={styles.toggleRow}>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={form.isAvailable}
+                aria-label="Toggle availability"
+                className={`${styles.toggle} ${form.isAvailable ? styles.toggleOn : ""}`}
+                onClick={() => set("isAvailable", !form.isAvailable)}
+              >
+                <span className={styles.thumb} />
+              </button>
+              <span
+                className={`${styles.toggleLabel} ${form.isAvailable ? styles.toggleLabelOn : ""}`}
+              >
+                {form.isAvailable ? "Available" : "Unavailable"}
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.cancelBtn}
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button type="submit" className={styles.submitBtn}>
+              Add Item
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
